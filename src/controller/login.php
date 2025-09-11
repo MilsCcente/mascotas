@@ -15,18 +15,19 @@ if ($tipo == "iniciar_sesion") {
     if (empty($arrPersona)) {
         $arrResponse = array('status' => false, 'msg' => 'Error, usuario no está registrado');
     } else {
-        if ($password === $arrPersona->password) {
+        // Comparación simple sin hash
+        if ($password === $arrPersona->contraseña) {
             session_start();
             $_SESSION['sesion_ventas_id'] = $arrPersona->id;
-            $_SESSION['sesion_ventas_usuario'] = $arrPersona->nombre; // solo usuario
-            $_SESSION['sesion_ventas_apellido'] = $arrPersona->apellido; // apellido
-            $_SESSION['sesion_ventas_rol'] = $arrPersona->rol;
+            $_SESSION['sesion_usuario'] = $arrPersona->nombre;
             $arrResponse = array('status' => true, 'msg' => 'Ingresar al sistema');
         } else {
             $arrResponse = array('status' => false, 'msg' => 'Error, contraseña incorrecta');
         }
     }
+
     echo json_encode($arrResponse);
+    exit;
 }
 
 if ($tipo == "cerrar_sesion") {
@@ -35,6 +36,5 @@ if ($tipo == "cerrar_sesion") {
     session_destroy();
     $arrResponse = array('status' => true);
     echo json_encode($arrResponse);
+    exit;
 }
-
-die;

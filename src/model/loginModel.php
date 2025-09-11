@@ -14,7 +14,7 @@ class loginModel
     // Nuevo: buscar por usuario
     public function buscarPersonaPorUsuario($usuario)
     {
-        $sql = $this->conexion->query("SELECT * FROM usuario WHERE nombre = '{$usuario}'");
+        $sql = $this->conexion->query("SELECT * FROM usuarios WHERE nombre = '{$usuario}'");
         $sql = $sql->fetch_object();
         return $sql;
     }
