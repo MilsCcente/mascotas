@@ -33,7 +33,6 @@
       display: flex;
       flex-direction: column;
       padding: 1rem;
-      background-image: url("huellita.png"); /* Fondo de huellitas */
       background-repeat: repeat;
       background-size: 80px; /* Tamaño de huellitas */
       transition: left 0.3s; /* Animación al abrir/cerrar en móvil */
@@ -49,7 +48,7 @@
     }
 
     .sidebar a {
-      color: black;
+      color: white;
       text-decoration: none;
       padding: 0.8rem 1rem;
       border-radius: 8px;
@@ -60,7 +59,7 @@
     }
 
     .sidebar a:hover {
-      background: rgba(97, 42, 226, 0.2);
+      background: rgba(35, 13, 86, 0.2);
     }
 
     /* ---------------- Main (zona principal) ---------------- */

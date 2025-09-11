@@ -117,12 +117,15 @@
 <body>
 
   <div class="login-container">
-    <!-- Logo 
-    <img src="public/img/logo.png" alt="Logo">-->
+    
+
 
     <h2>Panel de Administración</h2>
     <form action="" id="frmIniciar" method="POST">
       <div class="form-group">
+
+      <img src="src/img/logo.png" alt="Logo" >
+
         <label for="usuario">Usuario</label>
         <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
       </div>

@@ -112,7 +112,7 @@
 
         <div class="form-row">
             <div class="form-column">
-                <label for="edad">Edad (años)</label>
+                <label for="edad">Edad (meses)</label>
                 <input type="number" id="edad" name="edad" placeholder="Ej: 3">
             </div>
             <div class="form-column">
