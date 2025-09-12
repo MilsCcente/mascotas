@@ -33,4 +33,33 @@ $stmt->bind_param("ssidssi", $nombre, $raza, $edad, $peso, $color, $genero, $vac
     }
 }
 
+
+    // Obtener un perrito por ID
+    public function obtenerPerrito($id) {
+        $sql = "SELECT * FROM perritos WHERE id = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        return $resultado->fetch_assoc();
+    }
+
+    // Editar perrito
+    public function editarPerrito($id, $nombre, $raza, $edad, $peso, $color, $genero, $vacunado) {
+        $sql = "UPDATE perritos 
+                SET nombre = ?, raza = ?, edad = ?, peso = ?, color = ?, genero = ?, vacunado = ?
+                WHERE id = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param("ssidsisi", $nombre, $raza, $edad, $peso, $color, $genero, $vacunado, $id);
+        return $stmt->execute();
+    }
+
+    // Eliminar perrito
+    public function eliminarPerrito($id) {
+        $sql = "DELETE FROM perritos WHERE id = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
 }
+

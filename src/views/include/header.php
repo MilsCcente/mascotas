@@ -9,7 +9,35 @@
 
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<script>
+    const base_url = "<?php echo BASE_URL; ?>";
 
+    // Toggle sidebar en móviles
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleBtn = document.querySelector('.btn-outline-primary');
+      const sidebar = document.querySelector('.sidebar');
+
+      toggleBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('show');
+      });
+    });
+
+    async function cerrar_sesion() {
+      try {
+        let respuesta = await fetch(base_url+'src/controller/login.php?tipo=cerrar_sesion',{
+          method: 'POST', 
+          mode: 'cors',
+          cache:'no-cache',
+        });
+        let json = await respuesta.json();
+        if (json.status) {
+          location.replace(base_url+'login');
+        }
+      } catch(e) {
+        console.error(e);
+      }
+    }
+  </script>
   <style>
     /* 🔹 Reset básico */
     * {
@@ -174,7 +202,7 @@
       }
     }
   </style>
-  <script>const base_url = "<?php echo BASE_URL; ?>";</script>
+ 
 </head>
 <body>
 
@@ -183,7 +211,7 @@
     <h2>🐾 Mascotas</h2>
     <a href="<?php echo BASE_URL;?>inicio">Inicio</a>
     <a href="<?php echo BASE_URL;?>mascotas">Perritos</a>
-    <a href="<?php echo BASE_URL;?>usuarios">Usuarios</a>
+    <a href="<?php echo BASE_URL;?>usuario">Usuarios</a>
     
   </div>
 
@@ -197,7 +225,11 @@
         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
         <!-- Botón de cerrar sesión -->
         <form action="logout.php" method="POST" style="display:inline;">
-          <button class="logout">Cerrar Sesión</button>
+          <div class="mt-3">
+        <button type="button" onclick="cerrar_sesion();" class="btn btn-danger w-100">
+          <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
+        </button>
+      </div>
         </form>
       </div>
     </div>

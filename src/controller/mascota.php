@@ -18,10 +18,10 @@ if ($tipo == "listar") {
             // Botones de acción
             $opciones = '
             <div class="d-flex justify-content-start gap-2">
-                <a href="' . BASE_URL . 'editar-perrito.php?id=' . $id_perrito . '" class="btn btn-warning btn-sm d-inline-flex align-items-center">
+                <a href="' . BASE_URL . 'editar-mascota/'. $id_perrito . '" class="btn btn-warning btn-sm d-inline-flex align-items-center">
                     <i class="fa fa-pencil"></i> Editar
                 </a>
-                <button onclick="eliminarPerrito(' . $id_perrito . ');" class="btn btn-danger btn-sm d-inline-flex align-items-center">
+                <button onclick="eliminar_perrito(' . $id_perrito . ');" class="btn btn-danger btn-sm d-inline-flex align-items-center">
                     <i class="fa fa-trash"></i> Eliminar
                 </button>
             </div>';
@@ -61,4 +61,82 @@ if ($tipo == "registrar") {
 
         echo json_encode($arr_Respuestas);
     }
+}
+/* === EDITAR PERRITO === */
+if ($tipo == "editar") {
+    if ($_POST) {
+        $id      = $_POST['id'];
+        $nombre  = $_POST['nombre'];
+        $raza    = $_POST['raza'];
+        $edad    = $_POST['edad'];
+        $peso    = $_POST['peso'];
+        $color   = $_POST['color'];
+        $genero  = $_POST['genero'];
+        $vacunado = $_POST['vacunado'];
+
+        if ($id == "" || $nombre == "" || $genero == "" || $vacunado === "") {
+            $arr_Respuestas = array('status' => false, 'mensaje' => 'Error, campos vacíos');
+        } else {
+            $editado = $objPerrito->editarPerrito(
+                $id, $nombre, $raza, $edad, $peso, $color, $genero, $vacunado
+            );
+
+            if ($editado) {
+                $arr_Respuestas = array('status' => true, 'mensaje' => 'Perrito actualizado con éxito');
+            } else {
+                $arr_Respuestas = array('status' => false, 'mensaje' => 'Error al actualizar perrito');
+            }
+        }
+        echo json_encode($arr_Respuestas);
+    }
+}
+
+/* === VER PERRITO (para precargar el form) === */
+if ($tipo == "ver") {
+    if ($_POST) {
+        $id = $_POST['id'];
+        $perrito = $objPerrito->obtenerPerrito($id);
+
+        if ($perrito) {
+            $arr_Respuestas = array('status' => true, 'contenido' => $perrito);
+        } else {
+            $arr_Respuestas = array('status' => false, 'mensaje' => 'Perrito no encontrado');
+        }
+        echo json_encode($arr_Respuestas);
+    }
+}
+
+/* === ELIMINAR PERRITO === */
+if ($tipo == "eliminar") {
+    $id = $_POST['id'];
+    
+    try {
+        $arr_Respuesta = $objPerrito->eliminarPerrito($id);
+        
+        if ($arr_Respuesta) {
+            $response = array(
+                'status' => true,
+                'message' => 'Perrito eliminado correctamente.'
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'message' => 'No se encontró el perrito o no pudo ser eliminado.'
+            );
+        }
+    } catch (PDOException $e) {
+        if ($e->getCode() == '23000') {
+            $response = array(
+                'status' => false,
+                'message' => 'No se puede eliminar este perrito porque está asociado a otros registros.'
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'message' => 'Ocurrió un error inesperado: ' . $e->getMessage()
+            );
+        }
+    }
+
+    echo json_encode($response);
 }

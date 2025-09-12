@@ -51,6 +51,6 @@
         </div>
     </div>
 </div>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Script -->
 <script src="<?php echo BASE_URL ?>src/views/js/functions_perrito.js"></script>

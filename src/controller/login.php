@@ -36,5 +36,6 @@ if ($tipo == "cerrar_sesion") {
     session_destroy();
     $arrResponse = array('status' => true);
     echo json_encode($arrResponse);
-    exit;
 }
+
+die;

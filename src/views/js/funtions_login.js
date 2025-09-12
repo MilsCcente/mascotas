@@ -41,7 +41,7 @@ if (document.querySelector('#frmIniciar')) {
     }
 }
 
-/*async function cerrar_sesion() {
+async function cerrar_sesion() {
     try {
         let respuesta = await fetch(base_url + 'src/controller/login.php?tipo=cerrar_sesion', {
             method: 'POST',
@@ -57,4 +57,4 @@ if (document.querySelector('#frmIniciar')) {
     } catch (e) {
         console.log("Ocurrió un error: " + e);
     }
-}*/
+}
