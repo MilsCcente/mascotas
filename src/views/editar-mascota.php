@@ -18,7 +18,7 @@
         }
 
         .card-header {
-            background-color: #2980b9;
+            background-color:rgb(176, 96, 241);
             color: white;
             font-weight: bold;
             text-align: center;
@@ -28,13 +28,13 @@
         }
 
         .btn-primary {
-            background-color: #2980b9;
-            border-color: #2980b9;
+            background-color:rgb(176, 96, 241);
+            border-color:rgb(129, 92, 248);
         }
 
         .btn-primary:hover {
-            background-color: #2575a7;
-            border-color: #2575a7;
+            background-color:rgb(134, 51, 243);
+            border-color:rgb(138, 38, 246);
         }
     </style>
 </head>
@@ -76,8 +76,8 @@
     <label for="genero" class="form-label">Género</label>
     <select class="form-select" id="genero" name="genero" required>
         <option value="">Seleccione</option>
-        <option value="macho">Macho</option>
-        <option value="hembra">Hembra</option>
+        <option value="macho">macho</option>
+        <option value="hembra">hembra</option>
     </select>
 </div>
 

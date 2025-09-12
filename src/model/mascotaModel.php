@@ -45,14 +45,37 @@ $stmt->bind_param("ssidssi", $nombre, $raza, $edad, $peso, $color, $genero, $vac
     }
 
     // Editar perrito
-    public function editarPerrito($id, $nombre, $raza, $edad, $peso, $color, $genero, $vacunado) {
-        $sql = "UPDATE perritos 
-                SET nombre = ?, raza = ?, edad = ?, peso = ?, color = ?, genero = ?, vacunado = ?
-                WHERE id = ?";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("ssidsisi", $nombre, $raza, $edad, $peso, $color, $genero, $vacunado, $id);
-        return $stmt->execute();
-    }
+public function editarPerrito($id, $nombre, $raza, $edad, $peso, $color, $genero, $vacunado) {
+    // Asegurar que genero llegue limpio (sin espacios extra)
+    $genero = trim($genero);
+
+    $sql = "UPDATE perritos 
+            SET nombre = ?, raza = ?, edad = ?, peso = ?, color = ?, genero = ?, vacunado = ?
+            WHERE id = ?";
+
+    $stmt = $this->conexion->prepare($sql);
+
+    /*
+      Tipos:
+      s = string (nombre, raza, color, genero)
+      i = entero (edad, vacunado, id)
+      d = decimal/float (peso)
+    */
+
+    $stmt->bind_param("sssdssii", 
+        $nombre,   // string
+        $raza,     // string
+        $edad,     // int
+        $peso,     // double/float
+        $color,    // string
+        $genero,   // string (ENUM)
+        $vacunado, // int (0 o 1)
+        $id        // int
+    );
+
+    return $stmt->execute();
+}
+
 
     // Eliminar perrito
     public function eliminarPerrito($id) {

@@ -43,7 +43,7 @@
     .button {
         width: 100%;
         padding: 12px;
-        background-color: #2196F3;
+        background-color:rgb(171, 121, 245);
         color: white;
         border: none;
         border-radius: 5px;
@@ -54,7 +54,7 @@
     }
 
     .button:hover {
-        background-color: #1976D2;
+        background-color:rgb(106, 27, 242);
     }
 
     input:focus,

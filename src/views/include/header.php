@@ -6,20 +6,21 @@
   <title>Panel Administrador - Mascotas</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<script>
+
+  <script>
     const base_url = "<?php echo BASE_URL; ?>";
 
-    // Toggle sidebar en móviles
     document.addEventListener('DOMContentLoaded', function() {
-      const toggleBtn = document.querySelector('.btn-outline-primary');
+      const toggleBtn = document.querySelector('.menu-toggle');
       const sidebar = document.querySelector('.sidebar');
 
-      toggleBtn.addEventListener('click', function() {
-        sidebar.classList.toggle('show');
-      });
+      if(toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          sidebar.classList.toggle('show');
+        });
+      }
     });
 
     async function cerrar_sesion() {
@@ -38,32 +39,47 @@
       }
     }
   </script>
+
   <style>
-    /* 🔹 Reset básico */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* Reset básico */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f9f9f9; }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* ---------------- Header fijo ---------------- */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      background: #ede9fe;
+      border-bottom: 2px solid #c4b5fd;
       display: flex;
-      height: 100vh;
-      background: #f9f9f9;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      z-index: 1000;
     }
 
-    /* ---------------- Sidebar (menú lateral) ---------------- */
+    .header h1 { font-size: 1.2rem; color: #6d28d9; }
+    .header .menu-toggle { display: none; background: #7c3aed; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; }
+    .header .logout { background: #7c3aed; color: white; padding: 0.5rem 1rem; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s; }
+    .header .logout:hover { background: #6d28d9; }
+
+    /* ---------------- Sidebar fijo ---------------- */
     .sidebar {
+      position: fixed;
+      top: 70px; /* Debajo del header */
+      left: 0;
       width: 230px;
+      height: calc(100% - 70px);
       background: linear-gradient(135deg, #a78bfa, #7c3aed);
       color: white;
       display: flex;
       flex-direction: column;
       padding: 1rem;
-      background-repeat: repeat;
-      background-size: 80px; /* Tamaño de huellitas */
-      transition: left 0.3s; /* Animación al abrir/cerrar en móvil */
+      overflow-y: auto;
+      transition: left 0.3s;
     }
 
     .sidebar h2 {
@@ -85,63 +101,22 @@
       transition: background 0.3s;
       font-weight: 500;
     }
+    .sidebar a:hover { background: rgba(35, 13, 86, 0.2); }
 
-    .sidebar a:hover {
-      background: rgba(35, 13, 86, 0.2);
-    }
-
-    /* ---------------- Main (zona principal) ---------------- */
+    /* ---------------- Contenido principal ---------------- */
     .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Barra superior */
-    .header {
-      background: #ede9fe;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #c4b5fd;
-    }
-
-    .header h1 {
-      font-size: 1.2rem;
-      color: #6d28d9;
-    }
-
-    .header .menu-toggle {
-      display: none; /* Botón visible solo en móvil */
-      background: #7c3aed;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .header .logout {
-      background: #7c3aed;
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .header .logout:hover {
-      background: #6d28d9;
-    }
-
-    /* Contenido principal */
-    .content {
+      margin-left: 230px; /* ancho del sidebar */
+      margin-top: 70px;   /* altura del header */
       padding: 2rem;
+      background: #f9f9f9;
+      min-height: calc(100vh - 70px);
     }
 
-    /* Tarjeta de bienvenida */
+    .content {
+      max-width: 1200px;
+      margin: auto;
+    }
+
     .card {
       background: white;
       padding: 1.5rem;
@@ -149,93 +124,52 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin-bottom: 1.5rem;
     }
+    .card h3 { margin-bottom: 0.5rem; color: #7c3aed; }
 
-    .card h3 {
-      margin-bottom: 0.5rem;
-      color: #7c3aed;
-    }
-
-    /* Estadísticas */
-    .stats {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .stat {
-      flex: 1;
+    /* ---------------- Footer fijo (opcional) ---------------- */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 230px;
+      width: calc(100% - 230px);
       background: #ede9fe;
       padding: 1rem;
-      border-radius: 10px;
       text-align: center;
-      min-width: 120px;
+      border-top: 2px solid #c4b5fd;
     }
 
-    .stat h4 {
-      font-size: 1rem;
-      color: #6d28d9;
-      margin-bottom: .3rem;
-    }
-
-    .stat p {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #4c1d95;
-    }
-
-    /* ---------------- Responsive (para celular) ---------------- */
+    /* ---------------- Responsive (móvil) ---------------- */
     @media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: -250px; /* Oculto por defecto */
-        height: 100%;
-        z-index: 1000;
-      }
-
-      .sidebar.show {
-        left: 0; /* Cuando se abre */
-      }
-
-      .header .menu-toggle {
-        display: block; /* Botón visible en móvil */
-      }
+      .sidebar { left: -250px; top: 70px; height: calc(100% - 70px); }
+      .sidebar.show { left: 0; }
+      .header .menu-toggle { display: block; }
+      .main { margin-left: 0; }
+      .footer { left: 0; width: 100%; }
     }
   </style>
- 
 </head>
-<body>
 
-  <!-- Sidebar con menú lateral -->
-  <div class="sidebar" id="sidebar">
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
     <h2>🐾 Mascotas</h2>
     <a href="<?php echo BASE_URL;?>inicio">Inicio</a>
     <a href="<?php echo BASE_URL;?>mascotas">Perritos</a>
     <a href="<?php echo BASE_URL;?>usuario">Usuarios</a>
-    
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Panel de Administración</h1>
+    <div>
+      <button class="menu-toggle">☰</button>
+      <button type="button" onclick="cerrar_sesion();" class="logout">
+        <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
+      </button>
+    </div>
   </div>
 
   <!-- Contenido principal -->
   <div class="main">
-    <!-- Barra superior -->
-    <div class="header">
-      <h1>Panel de Administración</h1>
-      <div>
-        <!-- Botón que abre el menú en celular -->
-        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-        <!-- Botón de cerrar sesión -->
-        <form action="logout.php" method="POST" style="display:inline;">
-          <div class="mt-3">
-        <button type="button" onclick="cerrar_sesion();" class="btn btn-danger w-100">
-          <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
-        </button>
-      </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Sección de contenido -->
     <div class="content">
-      <!-- Tarjeta de bienvenida -->
       <div class="card">
-        

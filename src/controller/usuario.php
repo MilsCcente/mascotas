@@ -19,9 +19,7 @@ if ($tipo == "listar") {
                 <a href="' . BASE_URL . 'editar-usuario/' . $id_usuario . '" class="btn btn-warning btn-sm d-inline-flex align-items-center">
                     <i class="fa fa-pencil"></i> Editar
                 </a>
-                <button onclick="eliminar_usuario(' . $id_usuario . ');" class="btn btn-danger btn-sm d-inline-flex align-items-center">
-                    <i class="fa fa-trash"></i> Eliminar
-                </button>
+                
             </div>';
 
             $arr_usuarios[$i]->options = $opciones;

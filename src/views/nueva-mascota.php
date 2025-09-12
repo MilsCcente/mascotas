@@ -94,11 +94,27 @@
     small {
         color: #6b21a8;
     }
+    .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .button.cancel {
+        background:rgb(225, 23, 23); /* gris claro */
+        color:rgb(255, 255, 255); /* texto oscuro */
+        transition: all 0.3s ease;
+    }
+
+    .button.cancel:hover {
+        background: #9ca3af; /* gris más oscuro */
+    }
 </style>
 
 <div class="form-container">
     <form class="form" action="" id="frmRegistrarPerrito">
-        <h2>Registrar / Editar Perrito</h2>
+        <h2>Registrar Perrito</h2>
 
         <div>
             <label for="nombre">Nombre</label>
@@ -144,8 +160,12 @@
             </div>
         </div>
 
-        <button type="button" class="button" onclick="registrarPerrito();">Guardar Perrito</button>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <div class="form-buttons">
+            <button type="button" class="button" onclick="registrarPerrito();">Guardar Perrito</button>
+            <button></button>
+            <a href="<?php echo BASE_URL; ?>mascotas" class="button cancel">Cancelar</a>
+        </div>
+         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </form>
 </div>
 

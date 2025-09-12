@@ -41,23 +41,6 @@
         background-color: #f9f9f9;
     }
 
-    .button {
-        width: 100%;
-        padding: 12px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-    }
-
-    .button:hover {
-        background-color: #45a049;
-    }
-
     input:focus,
     select:focus {
         border-color: #4CAF50;
@@ -71,9 +54,45 @@
         font-size: 24px;
         margin-bottom: 20px;
     }
+
+    /* Contenedor de botones */
+    .form-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .button {
+        flex: 1;
+        padding: 12px;
+        background: linear-gradient(135deg, #7c3aed, #c084fc);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .button:hover {
+        background-color: #45a049;
+    }
+
+    /* Botón cancelar en rojo */
+    .button.cancel {
+        background-color:rgb(238, 29, 15); /* rojo */
+        color: white;
+    }
+
+    .button.cancel:hover {
+        background-color: #d32f2f; /* rojo más oscuro al pasar el mouse */
+    }
 </style>
 
-<!-- Contenedor centrado -->
 <div class="form-container">
     <form class="form" action="" id="frmRegistrarUsuario" autocomplete="off">
         <h2>Registrar Usuario</h2>
@@ -97,10 +116,14 @@
             </select>
         </div>
 
-        <button type="button" class="button" onclick="registrar_usuario();">Guardar Usuario</button>
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="button" class="button" onclick="registrar_usuario();">Guardar Usuario</button>
+            <a href="<?php echo BASE_URL; ?>usuario" class="button cancel">Cancelar</a>
+        </div>
+
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </form>
 </div>
 
-<!-- JS -->
 <script src="<?php echo BASE_URL ?>src/views/js/functions_usuario.js"></script>
