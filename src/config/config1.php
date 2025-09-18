@@ -10,7 +10,7 @@ const BD_PASSWORD = '';
 const BD_CHARSET = 'utf8';
 
 //ingresar link de proyecto
-const BASE_URL = 'http://localhost/peliculas/';
-const BASE_URL_SERVER = 'http://localhost/peliculas/';
+const BASE_URL = 'http://localhost/mascotas/';
+const BASE_URL_SERVER = 'http://localhost/mascotas/';
 
 ?>
