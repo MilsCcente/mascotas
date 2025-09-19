@@ -173,3 +173,13 @@
   <div class="main">
     <div class="content">
       <div class="card">
+
+
+      <!-- Sidebar -->
+<div class="sidebar">
+  <h2>🐾 Mascotas</h2>
+  <a href="<?php echo BASE_URL;?>inicio">Inicio</a>
+  <a href="<?php echo BASE_URL;?>mascotas">Perritos</a>
+  <a href="<?php echo BASE_URL;?>usuario">Usuarios</a>
+  <a href="<?php echo BASE_URL;?>clientes">Clientes</a> <!-- 🔹 Nuevo -->
+</div>
