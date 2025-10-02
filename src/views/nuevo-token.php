@@ -42,14 +42,8 @@
         flex-wrap: wrap;
     }
 
-    .form-column {
-        flex: 1;
-        min-width: 120px;
-    }
-
     input[type="text"],
     input[type="number"],
-    input[type="email"],
     select {
         width: 100%;
         padding: 10px;
@@ -92,9 +86,6 @@
         margin-bottom: 25px;
     }
 
-    small {
-        color: #6b21a8;
-    }
     .form-buttons {
         display: flex;
         justify-content: space-between;
@@ -104,7 +95,7 @@
 
     .button.cancel {
         background:rgb(225, 23, 23);
-        color:rgb(255, 255, 255);
+        color:#fff;
         transition: all 0.3s ease;
     }
 
@@ -114,45 +105,44 @@
 </style>
 
 <div class="form-container">
-    <form class="form" action="" id="frmRegistrarCliente">
-        <h2>Registrar Cliente</h2>
+    <form class="form" action="" id="frmRegistrarToken">
+        <h2>Registrar Token</h2>
 
         <div>
-            <label for="dni">DNI</label>
-            <input type="text" id="dni" name="dni" maxlength="8" placeholder="Ej: 74356670" required>
+            <label for="id_cliente_api">Cliente API</label>
+            <input type="number" id="id_cliente_api" name="id_cliente_api" placeholder="ID del cliente" required>
         </div>
 
         <div>
-            <label for="nombre_apellidos">Nombre y Apellidos</label>
-            <input type="text" id="nombre_apellidos" name="nombre_apellidos" placeholder="Ej: Juan Pérez" required>
-        </div>
-
-        <div class="form-row">
-            <div class="form-column">
-                <label for="telefono">Teléfono</label>
-                <input type="text" id="telefono" name="telefono" maxlength="9" placeholder="Ej: 935264426">
-            </div>
-            <div class="form-column">
-                <label for="correo">Correo</label>
-                <input type="email" id="correo" name="correo" placeholder="Ej: ejemplo@gmail.com">
+            <label for="token">Token</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="token" name="token" placeholder="Token generado" required>
+                <button type="button" class="button" style="flex: 0.5;" onclick="generarToken();">Generar</button>
             </div>
         </div>
 
         <div>
             <label for="estado">Estado</label>
-            <select id="estado" name="estado">
+            <select id="estado" name="estado" required>
                 <option value="activo" selected>Activo</option>
                 <option value="inactivo">Inactivo</option>
             </select>
         </div>
 
         <div class="form-buttons">
-            <button type="button" class="button" onclick="registrar_cliente();">Guardar Cliente</button>
-            <a href="<?php echo BASE_URL; ?>clientes" class="button cancel">Cancelar</a>
+            <button type="button" class="button" onclick="registrar_token();">Guardar Token</button>
+            <a href="<?php echo BASE_URL; ?>token" class="button cancel">Cancelar</a>
         </div>
-
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </form>
 </div>
 
-<script src="<?php echo BASE_URL ?>src/views/js/functions_cliente.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="<?php echo BASE_URL ?>src/views/js/functions_token.js"></script>
+
+<script>
+    function generarToken() {
+        // Genera un token aleatorio (10 caracteres alfanuméricos)
+        const rand = Math.random().toString(36).slice(2, 12).toUpperCase();
+        document.querySelector('#token').value = rand;
+    }
+</script>
