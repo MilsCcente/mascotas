@@ -36,7 +36,7 @@ if (document.querySelector('#tbl_tokens')) {
 }
 
 // ===================== REGISTRAR TOKEN =====================
-async function registrarToken() {
+async function registrar_token() {
     let id_cliente_api = document.querySelector('#id_cliente_api').value.trim();
     let token = document.querySelector('#token').value.trim();
 
