@@ -23,7 +23,7 @@
             font-size: 1.5rem;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
-        }
+        }   
 
         .btn-primary {
             background-color:rgb(176, 96, 241);

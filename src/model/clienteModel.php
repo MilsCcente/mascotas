@@ -76,3 +76,14 @@ class ClienteModel {
         return $stmt->execute();
     }
 }
+
+#busquedas api
+public function buscarBienByIdDenominacion($data)
+{
+    $arrRespuesta = array();
+    $sql = $this->conexion->query("SELECT * FROM denominacion 'data'" );
+    while ($objeto = $sql->fetch_object()) {
+        array_push($arrRespuesta, $objeto);
+    }
+    return $arrRespuesta;
+}

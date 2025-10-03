@@ -14,7 +14,18 @@ async function listar_clientes() {
             datos.forEach(item => {
                 let fila = document.createElement("tr");
                 cont++;
-
+            
+                let botones = `
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-warning btn-sm" onclick="editar_cliente(${item.id})">
+                            <i class="fa fa-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminar_cliente(${item.id})">
+                            <i class="fa fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                `;
+            
                 fila.innerHTML = `
                     <td>${cont}</td>
                     <td>${item.dni}</td>
@@ -23,11 +34,12 @@ async function listar_clientes() {
                     <td>${item.correo}</td>
                     <td>${item.fecha_registro}</td>
                     <td>${item.estado}</td>
-                    <td>${item.options}</td>
+                    <td>${botones}</td>
                 `;
-
+            
                 document.querySelector('#tbl_clientes').appendChild(fila);
             });
+            
         }
     } catch (error) {
         console.error("Error al listar clientes:", error);

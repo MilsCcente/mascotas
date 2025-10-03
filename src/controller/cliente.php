@@ -10,15 +10,29 @@ if ($tipo == "listar") {
     $arr_clientes = $objCliente->obtenerClientes();
 
     if (!empty($arr_clientes)) {
+        // Agregar botones de acción para cada cliente
+        foreach ($arr_clientes as $cliente) {
+            $cliente->options = '
+                <div class="d-flex justify-content-start gap-2">
+                    <button onclick="editar_cliente('.$cliente->id.')" class="btn btn-warning btn-sm">
+                        <i class="fa fa-pencil"></i> Editar
+                    </button>
+                    <button onclick="eliminar_cliente('.$cliente->id.')" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            ';
+        }
+
         $arr_Respuestas['status'] = true;
         $arr_Respuestas['contenido'] = $arr_clientes;
     }
 
-    // Se asegura de enviar JSON correcto
     header('Content-Type: application/json');
     echo json_encode($arr_Respuestas);
     exit;
 }
+
 
 /* === REGISTRAR CLIENTE === */
 if ($tipo == "registrar" && $_POST) {
@@ -106,4 +120,20 @@ if ($tipo == "eliminar" && $_POST) {
     header('Content-Type: application/json');
     echo json_encode($response);
     exit;
+}
+
+
+if($tipo = "verBienApiByNombre"){
+    $token_api = #toke;
+    $ruta = explode("_", $token);
+    $id_cliente = $token_arr[2];
+    $arr_Cliente = $objApi->buscarClienteById($id_cliente);
+    if($arr_Cliente->estado){
+       $data = $_POST['data'];
+       $arr_bienes =$objApi->buscarBienByIdDenominacion($data);
+       $arr_Respuesta = array('status' => true, 'msg'=> '', 'contenido' =>$arr_bienes);
+    }else{
+        $arr_Respuesta = array('status' => false, 'msg' => 'Error, cliente no activo')
+    }
+    echo json_encode($arr_Respuesta);
 }
