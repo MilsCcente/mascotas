@@ -39,19 +39,17 @@ if (document.querySelector('#tbl_tokens')) {
 async function registrar_token() {
     let id_cliente_api = document.querySelector('#id_cliente_api').value.trim();
     let token = document.querySelector('#token').value.trim();
+    let estado = document.querySelector('#estado').value;
 
-    if (id_cliente_api === "" || token === "") {
+    if (id_cliente_api === "" || token === "" || estado === "") {
         swal("Error", "Todos los campos son obligatorios", "error");
         return;
     }
 
     try {
         const datos = new FormData(document.querySelector('#frmRegistrarToken'));
-
         let respuesta = await fetch(base_url + 'src/controller/token.php?tipo=registrar', {
             method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
             body: datos
         });
 
@@ -174,4 +172,29 @@ async function eliminar_token(id) {
             }
         }
     });
+}
+async function cargarClientes() {
+    try {
+        const respuesta = await fetch(base_url + 'src/controller/cliente.php?tipo=listar');
+        const json = await respuesta.json();
+
+        if (json.status) {
+            const select = document.querySelector('#id_cliente_api');
+            json.contenido.forEach(cliente => {
+                const option = document.createElement('option');
+                option.value = cliente.id;
+                option.textContent = cliente.nombre_apellidos;
+                select.appendChild(option);
+            });
+        } else {
+            console.log("No hay clientes para mostrar");
+        }
+    } catch (error) {
+        console.log("Error al cargar clientes: " + error);
+    }
+}
+
+// Llamar cuando se cargue la página
+if (document.querySelector('#id_cliente_api')) {
+    cargarClientes();
 }

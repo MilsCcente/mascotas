@@ -5,20 +5,20 @@ class ClienteModel {
     private $conexion;
 
     public function __construct() {
-        $this->conexion = Conexion::connect(); // Obtenemos la conexión mysqli
+        $this->conexion = Conexion::connect();
     }
 
-    // 📌 1. Obtener todos los clientes
     public function obtenerClientes() {
         $arrRespuesta = array();
         $respuesta = $this->conexion->query("SELECT * FROM cliente_api");
-        
         while ($objeto = $respuesta->fetch_object()) {
             array_push($arrRespuesta, $objeto);
         }
-
         return $arrRespuesta;
     }
+
+
+
 
     // 📌 2. Registrar un cliente
     public function registrarCliente($dni, $nombre, $telefono, $correo, $estado) {

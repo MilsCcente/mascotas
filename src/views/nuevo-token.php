@@ -110,7 +110,11 @@
 
         <div>
             <label for="id_cliente_api">Cliente API</label>
-            <input type="number" id="id_cliente_api" name="id_cliente_api" placeholder="ID del cliente" required>
+            
+            <select id="id_cliente_api" name="id_cliente_api" required>
+    <option value="">-- Seleccione un cliente --</option>
+</select>
+
         </div>
 
         <div>
