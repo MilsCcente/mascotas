@@ -123,8 +123,8 @@
         </div>
 
         <div>
-            <label for="nombre_apellidos">Nombre y Apellidos</label>
-            <input type="text" id="nombre_apellidos" name="nombre_apellidos" placeholder="Ej: Juan Pérez" required>
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required>
         </div>
 
         <div class="form-row">
@@ -141,13 +141,13 @@
         <div>
             <label for="estado">Estado</label>
             <select id="estado" name="estado">
-                <option value="activo" selected>Activo</option>
-                <option value="inactivo">Inactivo</option>
+                <option value="0" selected>Activo</option>
+                <option value="1">Inactivo</option>
             </select>
         </div>
 
         <div class="form-buttons">
-            <button type="button" class="button" onclick="registrar_cliente();">Guardar Cliente</button>
+            <button type="button" class="button" onclick="registrar_Cliente();">Guardar Cliente</button>
             <a href="<?php echo BASE_URL; ?>clientes" class="button cancel">Cancelar</a>
         </div>
 

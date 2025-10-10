@@ -149,4 +149,4 @@ if ($tipo == "eliminar") {
         $arr_Respuesta = array('status' => false, 'msg' => 'Error, cliente no activo')
     }
     echo json_encode($arr_Respuesta);
-}
+}*/

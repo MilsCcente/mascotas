@@ -54,8 +54,8 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="nombre_apellidos" class="form-label">Nombre y Apellidos <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="nombre_apellidos" name="nombre_apellidos" required>
+                    <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
                 </div>
 
                 <div class="col-md-6">
@@ -72,8 +72,8 @@
                     <label for="estado" class="form-label">Estado</label>
                     <select class="form-select" id="estado" name="estado">
                         <option value="">Seleccione</option>
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
+                        <option value="0">Activo</option>
+                        <option value="1">Inactivo</option>
                     </select>
                 </div>
             </div>

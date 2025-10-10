@@ -109,9 +109,9 @@
         <h2>Registrar Token</h2>
 
         <div>
-            <label for="id_cliente_api">Cliente API</label>
+            <label for="id_cliente">Cliente API</label>
             
-            <select id="id_cliente_api" name="id_cliente_api" required>
+            <select id="id_cliente" name="id_cliente" required>
     <option value="">-- Seleccione un cliente --</option>
 </select>
 
@@ -120,16 +120,15 @@
         <div>
             <label for="token">Token</label>
             <div style="display: flex; gap: 10px;">
-                <input type="text" id="token" name="token" placeholder="Token generado" required>
-                <button type="button" class="button" style="flex: 0.5;" onclick="generarToken();">Generar</button>
+                <input type="text" id="token" name="token"  value="Token automatico" readonly>
             </div>
         </div>
 
         <div>
             <label for="estado">Estado</label>
             <select id="estado" name="estado" required>
-                <option value="activo" selected>Activo</option>
-                <option value="inactivo">Inactivo</option>
+                <option value="0" selected>Activo</option>
+                <option value="1">Inactivo</option>
             </select>
         </div>
 

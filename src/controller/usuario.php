@@ -32,18 +32,18 @@ if ($tipo == "listar") {
     echo json_encode($arr_Respuestas);
 }
 
-
 /* === REGISTRAR USUARIO === */
 if ($tipo == "registrar") {
     if ($_POST) {
-        $nombre   = $_POST['nombre'];
-        $password = $_POST['password'];
-        $rol      = $_POST['rol'];
+        $nombre      = $_POST['nombre'];
+        $contrasena  = $_POST['contrasena'];
+        $rol         = $_POST['rol'];
 
-        if ($nombre == "" || $password == "" || $rol == "") {
-            $arr_Respuestas = array('status' => false, 'mensaje' => 'Error, campos vacíos');
+        if ($nombre == "" || $contrasena == "" || $rol == "") {
+            $arr_Respuestas = array('status' => false, 'mensaje' => 'Error, todos los campos son obligatorios');
         } else {
-            $arrUsuario = $objUsuario->registrarUsuario($nombre, $password, $rol);
+            // Registrar el usuario (la contraseña se puede encriptar)
+            $arrUsuario = $objUsuario->registrarUsuario($nombre, $contrasena, $rol);
 
             if ($arrUsuario['id'] > 0) {
                 $arr_Respuestas = array('status' => true, 'mensaje' => 'Usuario registrado con éxito');
@@ -51,22 +51,21 @@ if ($tipo == "registrar") {
                 $arr_Respuestas = array('status' => false, 'mensaje' => 'Error al registrar usuario');
             }
         }
+
         echo json_encode($arr_Respuestas);
     }
 }
 
-
 /* === EDITAR USUARIO === */
 if ($tipo == "editar") {
     if ($_POST) {
-        $id       = $_POST['id_usuario'];
-        $nombre   = $_POST['nombre'];
-        $rol      = $_POST['rol'];
+        $id = $_POST['id'];
+        $nombre = $_POST['nombre'];
+        $rol  = $_POST['rol'];
 
         if ($id == "" || $nombre == "" || $rol == "") {
-            $arr_Respuestas = array('status' => false, 'mensaje' => 'Error, campos vacíos');
+            $arr_Respuestas = array('status' => false, 'mensaje' => 'Error, campos obligatorios vacíos');
         } else {
-            // Solo se actualizan nombre, apellido y rol
             $editado = $objUsuario->editarUsuario($id, $nombre, $rol);
 
             if ($editado) {
@@ -75,16 +74,15 @@ if ($tipo == "editar") {
                 $arr_Respuestas = array('status' => false, 'mensaje' => 'Error al actualizar usuario');
             }
         }
+
         echo json_encode($arr_Respuestas);
     }
 }
 
-
-
-/* === VER USUARIO (para precargar el form) === */
+/* === VER USUARIO (precargar formulario) === */
 if ($tipo == "ver") {
     if ($_POST) {
-        $id = $_POST['id_usuario'];
+        $id = $_POST['id'];
         $usuario = $objUsuario->obtenerUsuario($id);
 
         if ($usuario) {
@@ -92,44 +90,10 @@ if ($tipo == "ver") {
         } else {
             $arr_Respuestas = array('status' => false, 'mensaje' => 'Usuario no encontrado');
         }
+
         echo json_encode($arr_Respuestas);
     }
 }
 
 
-/* === ELIMINAR USUARIO === */
-if ($tipo == "eliminar") {
-    $id_usuario = $_POST['id_usuario'];
-
-    try {
-        $arr_Respuesta = $objUsuario->eliminarUsuario($id_usuario);
-
-        if ($arr_Respuesta) {
-            $response = array(
-                'status' => true,
-                'message' => 'Usuario eliminado correctamente.'
-            );
-        } else {
-            $response = array(
-                'status' => false,
-                'message' => 'No se encontró el usuario o no pudo ser eliminado.'
-            );
-        }
-    } catch (PDOException $e) {
-        // Verificamos si el error es por clave foránea
-        if ($e->getCode() == '23000') {
-            $response = array(
-                'status' => false,
-                'message' => 'No se puede eliminar este usuario porque está asociado a otros registros.'
-            );
-        } else {
-            $response = array(
-                'status' => false,
-                'message' => 'Ocurrió un error inesperado: ' . $e->getMessage()
-            );
-        }
-    }
-
-    echo json_encode($response);
-}
 ?>

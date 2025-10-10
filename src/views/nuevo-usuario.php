@@ -4,104 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Usuario</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <style>
-        body {
-            background-color: #f8f9fa;
+        .form-container {
+            margin: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+            background-color: #f0f2f5;
         }
-
-        .card {
-            width: 100%;
-            max-width: 600px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            margin: 60px auto;
+        .form {
+            background-color: #ffffff;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            font-family: Arial, sans-serif;
         }
-
-        .card-header {
-            background-color: #a66cff;
-            color: white;
+        .form div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
-            text-align: center;
-            font-size: 1.6rem;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
+            color: #333;
         }
-
-        .btn-primary {
-            background-color: #a66cff;
-            border-color: #8e5efc;
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background-color: #f9f9f9;
         }
-
-        .btn-primary:hover {
-            background-color: #8a46ff;
-            border-color: #752efb;
+        input:focus, select:focus {
+            border-color: #4CAF50;
+            outline: none;
+            background-color: #f1f9f1;
+        }
+        .button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #7c3aed, #c084fc);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .button.cancel {
+            background-color: rgb(238, 29, 15);
         }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="card-header">Registrar Usuario</div>
-    <div class="card-body">
-        <form id="frmUsuario">
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre completo <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
-            </div>
+<div class="form-container">
+    <form class="form" id="frmRegistrarUsuario" autocomplete="off">
+        <h3 class="text-center mb-4">Registrar Usuario</h3>
 
-            <div class="mb-3">
-                <label for="correo" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
-                <input type="email" class="form-control" id="correo" name="correo" placeholder="Ej. correo@gmail.com" required>
-            </div>
+        <div>
+            <label for="nombre">Usuario</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre de usuario" required>
+        </div>
 
-            <div class="mb-3">
-                <label for="usuario" class="form-label">Usuario <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ej. jperez" required>
-            </div>
+        <div>
+            <label for="contrasena">Contraseña</label>
+            <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña segura" required>
+        </div>
 
-            <div class="mb-3">
-                <label for="clave" class="form-label">Contraseña <span class="text-danger">*</span></label>
-                <input type="password" class="form-control" id="clave" name="clave" placeholder="********" required>
-            </div>
+        <div>
+            <label for="rol">Rol</label>
+            <select id="rol" name="rol" required>
+                <option value="">Seleccione un rol</option>
+                <option value="admin">Administrador</option>
+                <option value="usuario">Usuario</option>
+            </select>
+        </div>
 
-            <div class="mt-4">
-                <button type="button" class="btn btn-primary w-100" onclick="registrar_usuario();">Registrar</button>
-            </div>
-        </form>
-    </div>
+        <div class="mt-4">
+            <button type="button" class="button" onclick="registrar_usuario();">Guardar Usuario</button>
+            <a href="<?php echo BASE_URL; ?>usuario" class="button cancel mt-2 d-block text-center">Cancelar</a>
+        </div>
+    </form>
 </div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-<script>
-// Función para registrar usuario
-function registrar_usuario() {
-    const datos = new FormData(document.getElementById("frmUsuario"));
-
-    fetch("<?php echo BASE_URL ?>src/controllers/usuario_controller.php?op=registrar", {
-        method: "POST",
-        body: datos
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === "success") {
-            swal("✅ Registro exitoso", data.message, "success");
-            document.getElementById("frmUsuario").reset();
-        } else {
-            swal("❌ Error", data.message, "error");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        swal("Error", "Ocurrió un problema con el servidor", "error");
-    });
-}
-</script>
+<script src="<?php echo BASE_URL ?>src/views/js/functions_usuario.js"></script>
 
 </body>
 </html>

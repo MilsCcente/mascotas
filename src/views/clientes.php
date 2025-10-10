@@ -42,7 +42,6 @@
                         <th>Nombre y Apellidos</th>
                         <th>Teléfono</th>
                         <th>Correo</th>
-                        <th>Fecha Registro</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -93,7 +92,4 @@
 <!-- Scripts -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="<?php echo BASE_URL ?>src/views/js/functions_cliente.js"></script>
-<script>
-    // Llamar función que llena la tabla clientes
-    listarClientes();
-</script>
+

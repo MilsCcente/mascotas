@@ -21,12 +21,12 @@ class UsuarioModel {
     }
 
 // Registrar usuario
-public function registrarUsuario($nombre, $password, $rol) {
+public function registrarUsuario($nombre, $contrasena, $rol) {
     $sql = "INSERT INTO usuarios (nombre, contraseña, rol)
             VALUES (?, ?, ?)";
     
     $stmt = $this->conexion->prepare($sql);
-    $stmt->bind_param("sss", $nombre, $password, $rol);
+    $stmt->bind_param("sss", $nombre, $contrasena, $rol);
 
     if ($stmt->execute()) {
         return ['id' => $stmt->insert_id];
@@ -36,15 +36,16 @@ public function registrarUsuario($nombre, $password, $rol) {
 }
 
 
-    // Obtener un usuario por ID
-    public function obtenerUsuario($id) {
-        $sql = "SELECT * FROM usuarios WHERE id = ?";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-        return $resultado->fetch_assoc();
-    }
+   // Obtener un usuario por ID (sin contraseña)
+public function obtenerUsuario($id) {
+    $sql = "SELECT id, nombre, rol FROM usuarios WHERE id = ?";
+    $stmt = $this->conexion->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    return $resultado->fetch_assoc();
+}
+
 
   // Editar usuario (sin modificar contraseña)
 public function editarUsuario($id, $nombre, $rol) {
@@ -61,11 +62,4 @@ public function editarUsuario($id, $nombre, $rol) {
 
 
 
-    // Eliminar usuario
-    public function eliminarUsuario($id) {
-        $sql = "DELETE FROM usuario WHERE id = ?";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i", $id);
-        return $stmt->execute();
-    }
 }

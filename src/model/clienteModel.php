@@ -8,17 +8,34 @@ class ClienteModel {
         $this->conexion = Conexion::connect(); // Obtenemos la conexión mysqli
     }
 
-    // 📌 1. Obtener todos los clientes
-    public function obtenerClientes() {
-        $arrRespuesta = array();
-        $respuesta = $this->conexion->query("SELECT * FROM cliente_api");
-        
-        while ($objeto = $respuesta->fetch_object()) {
-            array_push($arrRespuesta, $objeto);
-        }
+  // 📌 1. Obtener todos los clientes
+public function obtenerClientes() {
+    $arrRespuesta = array();
 
-        return $arrRespuesta;
+    // Aquí convertimos el estado numérico a texto (Activo / Inactivo)
+    $sql = "
+        SELECT 
+        id,
+            dni,
+            nombre,
+            telefono,
+            correo,
+            CASE 
+                WHEN estado = 0 THEN 'Activo'
+                WHEN estado = 1 THEN 'Inactivo'
+            END AS estado
+        FROM cliente_api
+    ";
+
+    $respuesta = $this->conexion->query($sql);
+
+    while ($objeto = $respuesta->fetch_object()) {
+        $arrRespuesta[] = $objeto;
     }
+
+    return $arrRespuesta;
+}
+
 
     // 📌 2. Registrar un cliente
     public function registrarCliente($dni, $nombre, $telefono, $correo, $estado) {

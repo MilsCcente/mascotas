@@ -18,10 +18,9 @@ async function listarClientes() {
                 nueva_fila.innerHTML = `
                     <th>${cont}</th>
                     <td>${item.dni}</td>
-                    <td>${item.nombre_apellidos}</td>
+                    <td>${item.nombre}</td>
                     <td>${item.telefono || ''}</td>
                     <td>${item.correo || ''}</td>
-                    <td>${item.fecha_registro}</td>
                     <td>${item.estado}</td>
                     <td>${item.options}</td>
                 `;
@@ -43,10 +42,10 @@ if (document.querySelector('#tbl_clientes')) {
 
 
 // ===================== REGISTRAR CLIENTE =====================
-async function registrarCliente() {
+async function registrar_Cliente() {
     // Obtener valores de los inputs
     let dni = document.querySelector('#dni').value.trim();
-    let nombre_apellidos = document.querySelector('#nombre_apellidos').value.trim();
+    let nombre_apellidos = document.querySelector('#nombre').value.trim();
     let telefono = document.querySelector('#telefono').value.trim();
     let correo = document.querySelector('#correo').value.trim();
 
@@ -98,7 +97,7 @@ async function editar_cliente(id) {
             // Guardar ID en hidden
             document.querySelector('#id').value = json.contenido.id;
             document.querySelector('#dni').value = json.contenido.dni;
-            document.querySelector('#nombre_apellidos').value = json.contenido.nombre_apellidos;
+            document.querySelector('#nombre').value = json.contenido.nombre;
             document.querySelector('#telefono').value = json.contenido.telefono;
             document.querySelector('#correo').value = json.contenido.correo;
             document.querySelector('#estado').value = json.contenido.estado;
@@ -117,12 +116,12 @@ async function editar_cliente(id) {
 async function actualizar_cliente() {
     const id = document.querySelector('#id').value;
     const dni = document.querySelector('#dni').value;
-    const nombre_apellidos = document.querySelector('#nombre_apellidos').value;
+    const nombre = document.querySelector('#nombre').value;
     const telefono = document.querySelector('#telefono').value;
     const correo = document.querySelector('#correo').value;
     const estado = document.querySelector('#estado').value;
 
-    if (!dni || !nombre_apellidos) {
+    if (!dni || !nombre) {
         swal("Error", "Por favor completa los campos DNI y Nombre", "error");
         return;
     }
@@ -131,7 +130,7 @@ async function actualizar_cliente() {
         const formData = new FormData();
         formData.append('id', id);
         formData.append('dni', dni);
-        formData.append('nombre_apellidos', nombre_apellidos);
+        formData.append('nombre', nombre);
         formData.append('telefono', telefono);
         formData.append('correo', correo);
         formData.append('estado', estado);
@@ -160,10 +159,10 @@ async function actualizar_cliente() {
 // ===================== ELIMINAR CLIENTE =====================
 async function eliminar_cliente(id) {
     swal({
-        title: "¿Estás seguro de eliminar este cliente?",
-        text: "No podrás recuperarlo",
+        title: "¿Estás segura de eliminar este cliente?",
+        text: "No podrás recuperarlo luego.",
         icon: "warning",
-        buttons: true,
+        buttons: ["Cancelar", "Sí, eliminar"],
         dangerMode: true
     }).then(async (willDelete) => {
         if (willDelete) {
@@ -179,17 +178,25 @@ async function eliminar_cliente(id) {
                 const json = await respuesta.json();
 
                 if (json.status) {
-                    swal("Éxito", json.mensaje, "success")
-                        .then(() => {
-                            location.reload();
-                        });
+                    swal({
+                        title: "✅ Éxito",
+                        text: json.message, // 👈 Cambiado de mensaje → message
+                        icon: "success"
+                    }).then(() => {
+                        // Recargar la tabla o la página
+                        location.reload();
+                        // O si prefieres sin recargar:
+                        // document.getElementById("fila_" + id)?.remove();
+                    });
                 } else {
-                    swal("Error", json.mensaje, "error");
+                    swal("⚠️ Error", json.message, "error"); // 👈 También message
                 }
 
             } catch (error) {
-                console.log("Error al eliminar cliente: " + error);
+                console.error("Error al eliminar cliente:", error);
+                swal("❌ Error", "No se pudo eliminar el cliente. Intenta de nuevo.", "error");
             }
         }
     });
 }
+
