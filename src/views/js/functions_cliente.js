@@ -82,6 +82,7 @@ async function registrar_Cliente() {
 
 // ===================== EDITAR CLIENTE =====================
 async function editar_cliente(id) {
+    
     const formData = new FormData();
     formData.append('id', id);
 

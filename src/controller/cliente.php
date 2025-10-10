@@ -136,7 +136,7 @@ if ($tipo == "eliminar") {
 }
 
 
-/*if($tipo = "verBienApiByNombre"){
+if($tipo = "verMascotasApiByNombre"){
     $token_api = #toke;
     $ruta = explode("_", $token);
     $id_cliente = $token_arr[2];
@@ -146,7 +146,7 @@ if ($tipo == "eliminar") {
        $arr_bienes =$objApi->buscarBienByIdDenominacion($data);
        $arr_Respuesta = array('status' => true, 'msg'=> '', 'contenido' =>$arr_bienes);
     }else{
-        $arr_Respuesta = array('status' => false, 'msg' => 'Error, cliente no activo')
+        $arr_Respuesta = array('status' => false, 'msg' => 'Error, cliente no activo');
     }
     echo json_encode($arr_Respuesta);
-}*/
+}
