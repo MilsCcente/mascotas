@@ -5,24 +5,24 @@ class ClienteModel {
     private $conexion;
 
     public function __construct() {
-        $this->conexion = Conexion::connect();
+        $this->conexion = Conexion::connect(); // Obtenemos la conexión mysqli
     }
 
+    // 📌 1. Obtener todos los clientes
     public function obtenerClientes() {
         $arrRespuesta = array();
         $respuesta = $this->conexion->query("SELECT * FROM cliente_api");
+        
         while ($objeto = $respuesta->fetch_object()) {
             array_push($arrRespuesta, $objeto);
         }
+
         return $arrRespuesta;
     }
 
-
-
-
     // 📌 2. Registrar un cliente
     public function registrarCliente($dni, $nombre, $telefono, $correo, $estado) {
-        $sql = "INSERT INTO cliente_api (dni, nombre_apellidos, telefono, correo, estado)
+        $sql = "INSERT INTO cliente_api (dni, nombre, telefono, correo, estado)
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conexion->prepare($sql);
 
@@ -52,7 +52,7 @@ class ClienteModel {
     // 📌 4. Editar cliente
     public function editarCliente($id, $dni, $nombre, $telefono, $correo, $estado) {
         $sql = "UPDATE cliente_api 
-                SET dni = ?, nombre_apellidos = ?, telefono = ?, correo = ?, estado = ?
+                SET dni = ?, nombre = ?, telefono = ?, correo = ?, estado = ?
                 WHERE id = ?";
         $stmt = $this->conexion->prepare($sql);
 
@@ -78,12 +78,12 @@ class ClienteModel {
 }
 
 #busquedas api
-public function buscarBienByIdDenominacion($data)
-{
-    $arrRespuesta = array();
-    $sql = $this->conexion->query("SELECT * FROM denominacion 'data'" );
-    while ($objeto = $sql->fetch_object()) {
-        array_push($arrRespuesta, $objeto);
-    }
-    return $arrRespuesta;
-}
+#public function buscarBienByIdDenominacion($data)
+#{
+ #   $arrRespuesta = array();
+  #  $sql = $this->conexion->query("SELECT * FROM denominacion 'data'" );
+   # while ($objeto = $sql->fetch_object()) {
+    #    array_push($arrRespuesta, $objeto);
+    #}
+    #return $arrRespuesta;
+#}

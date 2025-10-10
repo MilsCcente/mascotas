@@ -1,9 +1,7 @@
 // ===================== LISTAR CLIENTES =====================
-async function listar_clientes() {
+async function listarClientes() {
     try {
-        // Limpiar la tabla antes de llenarla
-        document.querySelector('#tbl_clientes').innerHTML = "";
-
+        // Llamada al controlador de clientes
         let respuesta = await fetch(base_url + 'src/controller/cliente.php?tipo=listar');
         let json = await respuesta.json();
 
@@ -12,55 +10,56 @@ async function listar_clientes() {
             let cont = 0;
 
             datos.forEach(item => {
-                let fila = document.createElement("tr");
-                cont++;
-            
-                let botones = `
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-warning btn-sm" onclick="editar_cliente(${item.id})">
-                            <i class="fa fa-pencil"></i> Editar
-                        </button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminar_cliente(${item.id})">
-                            <i class="fa fa-trash"></i> Eliminar
-                        </button>
-                    </div>
-                `;
-            
-                fila.innerHTML = `
-                    <td>${cont}</td>
+                let nueva_fila = document.createElement("tr");
+                nueva_fila.id = "fila_" + item.id;
+                cont += 1;
+
+                // Se llena la fila con los datos del cliente
+                nueva_fila.innerHTML = `
+                    <th>${cont}</th>
                     <td>${item.dni}</td>
                     <td>${item.nombre_apellidos}</td>
-                    <td>${item.telefono}</td>
-                    <td>${item.correo}</td>
+                    <td>${item.telefono || ''}</td>
+                    <td>${item.correo || ''}</td>
                     <td>${item.fecha_registro}</td>
                     <td>${item.estado}</td>
-                    <td>${botones}</td>
+                    <td>${item.options}</td>
                 `;
-            
-                document.querySelector('#tbl_clientes').appendChild(fila);
+
+                document.querySelector('#tbl_clientes').appendChild(nueva_fila);
             });
-            
         }
+
+        console.log(json);
     } catch (error) {
-        console.error("Error al listar clientes:", error);
+        console.log("Error al listar clientes: " + error);
     }
 }
 
+// Ejecutar solo si existe la tabla
+if (document.querySelector('#tbl_clientes')) {
+    listarClientes();
+}
+
+
 // ===================== REGISTRAR CLIENTE =====================
-async function registrar_cliente() {
+async function registrarCliente() {
+    // Obtener valores de los inputs
     let dni = document.querySelector('#dni').value.trim();
-    let nombre = document.querySelector('#nombre_apellidos').value.trim();
+    let nombre_apellidos = document.querySelector('#nombre_apellidos').value.trim();
     let telefono = document.querySelector('#telefono').value.trim();
     let correo = document.querySelector('#correo').value.trim();
 
-    if (dni === "" || nombre === "" || telefono === "" || correo === "") {
-        swal("Error", "Todos los campos son obligatorios", "error");
+    // Validación básica
+    if (dni === "" || nombre_apellidos === "") {
+        swal("Error", "Los campos DNI y Nombre son obligatorios", "error");
         return;
     }
 
     try {
         const datos = new FormData(document.querySelector('#frmRegistrarCliente'));
 
+        // Enviar al controlador
         let respuesta = await fetch(base_url + 'src/controller/cliente.php?tipo=registrar', {
             method: 'POST',
             body: datos
@@ -69,17 +68,18 @@ async function registrar_cliente() {
         let json = await respuesta.json();
 
         if (json.status) {
-            swal("Éxito", json.mensaje, "success").then(() => {
-                document.querySelector('#frmRegistrarCliente').reset();
-                listar_clientes();
-            });
+            swal("Registro", json.mensaje, "success");
+            document.querySelector('#frmRegistrarCliente').reset();
         } else {
             swal("Error", json.mensaje, "error");
         }
-    } catch (error) {
-        console.error("Error al registrar cliente:", error);
+
+        console.log(json);
+    } catch (e) {
+        console.log("Error al registrar cliente: " + e);
     }
 }
+
 
 // ===================== EDITAR CLIENTE =====================
 async function editar_cliente(id) {
@@ -92,64 +92,76 @@ async function editar_cliente(id) {
             body: formData
         });
 
-        let json = await respuesta.json();
+        const json = await respuesta.json();
 
         if (json.status) {
+            // Guardar ID en hidden
             document.querySelector('#id').value = json.contenido.id;
             document.querySelector('#dni').value = json.contenido.dni;
             document.querySelector('#nombre_apellidos').value = json.contenido.nombre_apellidos;
             document.querySelector('#telefono').value = json.contenido.telefono;
             document.querySelector('#correo').value = json.contenido.correo;
             document.querySelector('#estado').value = json.contenido.estado;
+
         } else {
-            swal("Error", json.mensaje, "error");
+            window.location = base_url + "clientes";
         }
+
     } catch (error) {
-        console.error("Error al obtener cliente:", error);
+        console.log("Error al cargar datos del cliente: " + error);
     }
 }
+
 
 // ===================== ACTUALIZAR CLIENTE =====================
 async function actualizar_cliente() {
     const id = document.querySelector('#id').value;
     const dni = document.querySelector('#dni').value;
-    const nombre = document.querySelector('#nombre_apellidos').value;
+    const nombre_apellidos = document.querySelector('#nombre_apellidos').value;
     const telefono = document.querySelector('#telefono').value;
     const correo = document.querySelector('#correo').value;
     const estado = document.querySelector('#estado').value;
 
-    if (!dni || !nombre || !telefono || !correo) {
-        swal("Error", "Completa todos los campos", "error");
+    if (!dni || !nombre_apellidos) {
+        swal("Error", "Por favor completa los campos DNI y Nombre", "error");
         return;
     }
 
     try {
-        const formData = new FormData(document.querySelector('#frmCliente'));
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('dni', dni);
+        formData.append('nombre_apellidos', nombre_apellidos);
+        formData.append('telefono', telefono);
+        formData.append('correo', correo);
+        formData.append('estado', estado);
 
         let respuesta = await fetch(base_url + 'src/controller/cliente.php?tipo=editar', {
             method: 'POST',
             body: formData
         });
 
-        let json = await respuesta.json();
+        const json = await respuesta.json();
 
         if (json.status) {
             swal("Éxito", json.mensaje, "success").then(() => {
-                window.location = base_url + "clientes";
+                window.location = base_url + "clientes"; // Redirige al listado
             });
         } else {
             swal("Error", json.mensaje, "error");
         }
+
     } catch (error) {
-        console.error("Error al actualizar cliente:", error);
+        console.log("Error al actualizar cliente: " + error);
     }
 }
+
 
 // ===================== ELIMINAR CLIENTE =====================
 async function eliminar_cliente(id) {
     swal({
-        title: "¿Eliminar Cliente?",
-        text: "No podrás recuperarlo después",
+        title: "¿Estás seguro de eliminar este cliente?",
+        text: "No podrás recuperarlo",
         icon: "warning",
         buttons: true,
         dangerMode: true
@@ -159,29 +171,25 @@ async function eliminar_cliente(id) {
                 const formData = new FormData();
                 formData.append('id', id);
 
-                let respuesta = await fetch(base_url + 'src/controller/cliente.php?tipo=eliminar', {
+                const respuesta = await fetch(base_url + 'src/controller/cliente.php?tipo=eliminar', {
                     method: 'POST',
                     body: formData
                 });
 
-                let json = await respuesta.json();
+                const json = await respuesta.json();
 
                 if (json.status) {
-                    swal("Éxito", json.message, "success").then(() => {
-                        listar_clientes();
-                    });
+                    swal("Éxito", json.mensaje, "success")
+                        .then(() => {
+                            location.reload();
+                        });
                 } else {
-                    swal("Error", json.message, "error");
+                    swal("Error", json.mensaje, "error");
                 }
+
             } catch (error) {
-                console.error("Error al eliminar cliente:", error);
+                console.log("Error al eliminar cliente: " + error);
             }
         }
     });
-}
-
-// ===================== EJECUTAR =====================
-// Solo ejecuta si existe la tabla de clientes en la vista
-if (document.querySelector('#tbl_clientes')) {
-    listar_clientes();
 }

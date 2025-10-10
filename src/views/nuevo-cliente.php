@@ -156,3 +156,4 @@
 </div>
 
 <script src="<?php echo BASE_URL ?>src/views/js/functions_cliente.js"></script>
+
