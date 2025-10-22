@@ -183,4 +183,5 @@
   <a href="<?php echo BASE_URL;?>usuario">Usuarios</a>
   <a href="<?php echo BASE_URL;?>clientes">Clientes</a> <!-- 🔹 Nuevo -->
   <a href="<?php echo BASE_URL;?>token">Token</a>
+  <a href="<?php echo BASE_URL;?>api-request">Api Mascotas</a>
 </div>

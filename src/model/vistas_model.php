@@ -17,11 +17,16 @@ class vistaModelo
             } else {
                 $contenido = "404";
             }
-        } elseif ($vista == "login" || $vista == "index") {
+        } elseif ($vista == "inicio" || $vista == "index") {
+            $contenido = "inicio.php";
+        } elseif ($vista == "login") {
             $contenido = "login";
+        } elseif ($vista == "api-request") {
+            $contenido = "api-request";
         } else {
             $contenido = "404";
         }
+
         return $contenido;
     }
 }
