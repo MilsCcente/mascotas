@@ -135,18 +135,3 @@ if ($tipo == "eliminar") {
     echo json_encode($response);
 }
 
-
-if($tipo = "verMascotasApiByNombre"){
-    $token_api = #toke;
-    $ruta = explode("_", $token);
-    $id_cliente = $token_arr[2];
-    $arr_Cliente = $objApi->buscarClienteById($id_cliente);
-    if($arr_Cliente->estado){
-       $data = $_POST['data'];
-       $arr_bienes =$objApi->buscarBienByIdDenominacion($data);
-       $arr_Respuesta = array('status' => true, 'msg'=> '', 'contenido' =>$arr_bienes);
-    }else{
-        $arr_Respuesta = array('status' => false, 'msg' => 'Error, cliente no activo');
-    }
-    echo json_encode($arr_Respuesta);
-}
