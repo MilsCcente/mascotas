@@ -163,13 +163,13 @@
     <div class="container">
         <h1>🐶✨ Buscador de Perritos</h1>
 
-        <div class="api-url">
+
             <input type="text" id="ruta_api" value="http://localhost:8888/mascotas/" hidden>
-        </div>
+        
 
         <!-- Formulario -->
         <form id="frmApi">
-            <input type="text" name="token" id="token" value="" hidden>
+            <input type="text" name="token" id="token" value="e31bec341b23d7c-20251024-6" hidden>
 
             <label for="data">🔍 Buscar perrito:</label>
             <input type="text" name="data" id="data" placeholder="Escribe el nombre del perrito...">
@@ -178,14 +178,22 @@
                 <div>
                     <label>🐾 Raza:</label>
                     <select id="raza" name="raza">
-                        <option value="">Todas</option>
-                        <option value="Labrador">Labrador</option>
-                        <option value="Poodle">Poodle</option>
-                        <option value="Bulldog">Bulldog</option>
-                        <option value="Chihuahua">Chihuahua</option>
-                        <option value="Husky">Husky</option>
-                        <option value="Otro">Otro</option>
-                    </select>
+    <option value="">Todas</option>
+    <option value="Golden Retriever">Golden Retriever</option>
+    <option value="Bulldog">Bulldog</option>
+    <option value="Beagle">Beagle</option>
+    <option value="Cruze de pitbull con sharpei">Cruze de pitbull con sharpei</option>
+    <option value="Pitbull">Pitbull</option>
+    <option value="Labrador">Labrador</option>
+    <option value="Poodle">Poodle</option>
+    <option value="Chihuahua">Chihuahua</option>
+    <option value="Shih Tzu">Shih Tzu</option>
+    <option value="Cocker Spaniel">Cocker Spaniel</option>
+    <option value="Bulldog Francés">Bulldog Francés</option>
+    <option value="Husky">Husky</option>
+    <option value="Yorkshire">Yorkshire</option>
+</select>
+
                 </div>
 
                 <div>
