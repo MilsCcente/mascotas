@@ -164,14 +164,12 @@
         <h1>🐶✨ Buscador de Perritos</h1>
 
         <div class="api-url">
-            <strong>Ruta API:</strong>
-            <input type="text" id="ruta_api" value="http://localhost:8888/mascotas/">
+            <input type="text" id="ruta_api" value="http://localhost:8888/mascotas/" hidden>
         </div>
 
         <!-- Formulario -->
         <form id="frmApi">
-            <label for="token">🔑 Token del cliente:</label>
-            <input type="text" name="token" id="token" placeholder="Ejemplo: a1b2c3d4-20251009-1" required>
+            <input type="text" name="token" id="token" value="" hidden>
 
             <label for="data">🔍 Buscar perrito:</label>
             <input type="text" name="data" id="data" placeholder="Escribe el nombre del perrito...">
