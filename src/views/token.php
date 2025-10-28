@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <!-- Table -->
+    <!-- Table para vista-->
     <div class="card-body p-0 collapse show" id="tablaTokensBody">
         <div class="table-responsive">
             <table id="tablaTokens" class="table table-hover align-middle mb-0">

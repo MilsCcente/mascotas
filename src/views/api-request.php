@@ -167,7 +167,7 @@
             <input type="text" id="ruta_api" value="http://localhost:8888/mascotas/" hidden>
         
 
-        <!-- Formulario -->
+        <!-- Formulariomascotas agregadas en mi tabla -->
         <form id="frmApi">
             <input type="text" name="token" id="token" value="e31bec341b23d7c-20251024-6" hidden>
 
@@ -177,7 +177,7 @@
             <div class="filtros">
                 <div>
                     <label>🐾 Raza:</label>
-                    <select id="raza" name="raza">
+<select id="raza" name="raza">
     <option value="">Todas</option>
     <option value="Golden Retriever">Golden Retriever</option>
     <option value="Bulldog">Bulldog</option>
