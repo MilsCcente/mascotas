@@ -3,47 +3,59 @@ header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 
 require_once('../model/apiModel.php');
-$tipo = $_GET['tipo'];
 
-// Instanciar la clase del modelo
+$tipo = $_GET['tipo'] ?? '';
+
 $objApi = new ApiModel();
 
-// Variables recibidas
 $token = $_POST['token'] ?? '';
 
 if ($tipo == "verPerritosApiByNombre") {
+    $verificacion = $objApi->verificarToken($token);
 
-    // Separar token
+    if (!$verificacion['estado']) {
+        $arr_Respuesta = array(
+            'status' => false,
+            'msg' => $verificacion['mensaje'],
+            'contenido' => []
+        );
+        echo json_encode($arr_Respuesta);
+        exit;
+    }
     $token_arr = explode("-", $token);
     $id_cliente = $token_arr[2] ?? 0;
 
-    // Buscar cliente
     $arr_Cliente = $objApi->buscarClienteById($id_cliente);
 
-    if ($arr_Cliente && $arr_Cliente->estado) {
-        // Capturar valores del formulario
+    if ($arr_Cliente && $arr_Cliente->estado == 1) {
+
         $data = $_POST['data'] ?? '';
         $raza = $_POST['raza'] ?? '';
         $genero = $_POST['genero'] ?? '';
 
-        // Buscar perritos según filtros
         $arr_perritos = $objApi->buscarPerritoPorNombreYFiltro($data, $raza, $genero);
 
-        // Respuesta exitosa
-        $arr_Respuesta = array(
-            'status' => true,
-            'msg' => '',
-            'contenido' => $arr_perritos
-        );
+        if (!empty($arr_perritos)) {
+            $arr_Respuesta = array(
+                'status' => true,
+                'msg' => '',
+                'contenido' => $arr_perritos
+            );
+        } else {
+            $arr_Respuesta = array(
+                'status' => false,
+                'msg' => 'No se encontraron perritos.',
+                'contenido' => []
+            );
+        }
 
     } else {
-        // Cliente no válido
         $arr_Respuesta = array(
             'status' => false,
-            'msg' => 'Error, cliente no activo o no encontrado.'
+            'msg' => 'Error, cliente no activo o no encontrado.',
+            'contenido' => []
         );
     }
-
     echo json_encode($arr_Respuesta);
 }
 ?>

@@ -10,16 +10,12 @@ class ApiModel
         $this->conexion = new Conexion();
         $this->conexion = $this->conexion->connect();
     }
-
-    // Buscar cliente según ID (verifica el token)
     public function buscarClienteById($id)
     {
         $sql = $this->conexion->query("SELECT * FROM cliente_api WHERE id='$id'");
-        $sql = $sql->fetch_object();
-        return $sql;
+        return $sql->fetch_object();
     }
 
-    // 🔍 Buscar perritos por nombre, raza y género
     public function buscarPerritoPorNombreYFiltro($nombre, $raza, $genero)
     {
         $sql = "SELECT * FROM perritos WHERE nombre LIKE '%$nombre%'";
@@ -29,7 +25,7 @@ class ApiModel
         }
 
         if (!empty($genero)) {
-            $sql .= " AND genero = '$genero'";
+            $sql .= " AND genero LIKE '%$genero%'";
         }
 
         $resultado = $this->conexion->query($sql);
@@ -40,6 +36,40 @@ class ApiModel
         }
 
         return $perritos;
+    }
+    public function verificarToken($token)
+    {
+        // Buscar token en la base de datos
+        $sql = $this->conexion->query("SELECT * FROM tokens WHERE token='$token' LIMIT 1");
+        $tokenData = $sql->fetch_object();
+
+        if (!$tokenData) {
+            return [
+                'estado' => false,
+                'mensaje' => 'Token no encontrado'
+            ];
+        }
+
+        if ($tokenData->estado == 0) {
+            return [
+                'estado' => false,
+                'mensaje' => 'Token inactivo'
+            ];
+        }
+
+        $fechaToken = strtotime($tokenData->fecha_registro);
+        $ahora = time();
+        $diferenciaDias = ($ahora - $fechaToken) / (3600 * 24);
+        if ($diferenciaDias > 30) {
+            return [
+                'estado' => false,
+                'mensaje' => 'Token vencido (más de 30 días), pida una renovación'
+            ];
+        }
+        return [
+            'estado' => true,
+            'mensaje' => 'Token válido'
+        ];
     }
 }
 ?>
