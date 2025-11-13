@@ -1,5 +1,5 @@
 <?php
-require_once('../model/ClienteModel.php'); // Importamos el modelo correcto
+require_once('../model/clienteModel.php'); // Importamos el modelo correcto
 
 $tipo = $_REQUEST['tipo'];
 
